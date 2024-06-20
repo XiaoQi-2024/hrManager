@@ -8,7 +8,9 @@
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <!-- 头像图标 -->
-          <img :src="avatar" class="user-avatar">
+          <img v-if="avatar" :src="avatar" class="user-avatar">
+          <!-- 头像url为null时，使用userName第一个字作为头像，并防止userName也为null报空指针，使用了？ -->
+          <span v-else class="userNameAvatar">{{ name?.charAt(0) }}</span>
           <!-- <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar"> -->
           <!-- 用户名 -->
           <span class="name">{{ name }}</span>
@@ -126,6 +128,15 @@ export default {
         display: flex;
         align-items: center;
 
+        .userNameAvatar {
+          width: 30px;
+          height: 30px;
+          text-align: center;
+          line-height: 30px;
+          border-radius: 50%;
+          background: #04c9be;
+          color: white;
+        }
         .name {
           font-size: 16px;
           padding-left: 5px;
