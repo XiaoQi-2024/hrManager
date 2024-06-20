@@ -13,6 +13,10 @@ export default {
     ...mapGetters([
       'name'
     ])
+  // },
+  // created() {
+  //   // 初始化执行通过请求头token获取用户信息
+  //   this.$store.dispatch('user/getUserInfo')
   }
 }
 </script>
