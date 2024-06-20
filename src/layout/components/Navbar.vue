@@ -7,8 +7,13 @@
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
-          <i class="el-icon-caret-bottom" />
+          <!-- 头像图标 -->
+          <img :src="avatar" class="user-avatar">
+          <!-- <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar"> -->
+          <!-- 用户名 -->
+          <span class="name">{{ name }}</span>
+          <!-- 设置图标 -->
+          <i class="el-icon-setting" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
@@ -44,7 +49,8 @@ export default {
   computed: {
     ...mapGetters([
       'sidebar',
-      'avatar'
+      'avatar',
+      'name'
     ])
   },
   methods: {
@@ -117,14 +123,24 @@ export default {
       .avatar-wrapper {
         margin-top: 5px;
         position: relative;
+        display: flex;
+        align-items: center;
 
+        .name {
+          font-size: 16px;
+          padding-left: 5px;
+          padding-right: 10px;
+        }
         .user-avatar {
           cursor: pointer;
-          width: 40px;
-          height: 40px;
-          border-radius: 10px;
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
         }
 
+        .el-icon-setting {
+          font-size: 20px;
+        }
         .el-icon-caret-bottom {
           cursor: pointer;
           position: absolute;
