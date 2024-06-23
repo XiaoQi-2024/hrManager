@@ -42,7 +42,7 @@ export const constantRoutes = [
   {
     path: '/login',
     component: () => import('@/views/login/index'),
-    hidden: true
+    hidden: true // hidden为true 表示不需要被渲染到侧边栏的路由
   },
 
   {
