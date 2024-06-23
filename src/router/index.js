@@ -6,6 +6,13 @@ Vue.use(Router)
 /* Layout */
 import Layout from '@/layout'
 import department from './modules/department'
+import approval from './modules/approval'
+import attendance from './modules/attendance'
+import employee from './modules/employee'
+import permission from './modules/permission'
+import role from './modules/role'
+import salary from './modules/salary'
+import social from './modules/social'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -58,6 +65,14 @@ export const constantRoutes = [
 
   // 导入组织架构路由规则
   department,
+  // 批量导入路由规则
+  approval,
+  attendance,
+  employee,
+  permission,
+  role,
+  salary,
+  social,
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
