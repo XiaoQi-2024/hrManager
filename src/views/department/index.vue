@@ -35,7 +35,7 @@
 <script>
 import { getDepartmentInfo } from '@/api/department'
 import { transListToTreeData } from '@/utils'
-import AddDept from '@/views/department/components/add-dapt.vue'
+import AddDept from '@/views/department/components/add-dept.vue'
 
 export default {
   name: 'Department',
