@@ -2,7 +2,7 @@
   <div class="container">
     <div class="app-container">
       <!-- 展示树形结构 -->
-      <el-tree default-expand-all :data="depts" :props="defaultProps">
+      <el-tree default-expand-all :data="depts" :props="defaultProps" :expand-on-click-node="false">
         <!-- 节点结构 设置宽度方向占满 水平方向两头对齐 垂直方向居中 -->
         <!-- v-slot="{ node, data }"数据插槽 只能作用在template -->
         <template v-slot="{ data }">
@@ -11,14 +11,14 @@
             <!-- 加冒号变成数值类型 设置占据的分数 默认各一半 总共24份 -->
             <el-col :span="4">
               <span style="padding-right: 10px;">{{ data.managerName }}</span>
-              <el-dropdown>
+              <el-dropdown @command="operateDept">
                 <span class="el-dropdown-link">
                   操作<i class="el-icon-arrow-down el-icon--right" />
                 </span>
                 <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>添加子部门</el-dropdown-item>
-                  <el-dropdown-item>编辑部门</el-dropdown-item>
-                  <el-dropdown-item>删除</el-dropdown-item>
+                  <el-dropdown-item command="add">添加子部门</el-dropdown-item>
+                  <el-dropdown-item command="edit">编辑部门</el-dropdown-item>
+                  <el-dropdown-item command="del">删除</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
             </el-col>
@@ -26,17 +26,23 @@
         </template>
       </el-tree>
     </div>
+    <!-- 放置弹层 父组件给子组件传值 -->
+    <!-- .sync 表示会接收子组件的事件：update:showDialog 值传给 showDialog 实现子传父 -->
+    <add-dept :show-dialog.sync="showDialog" />
   </div>
 </template>
 
 <script>
 import { getDepartmentInfo } from '@/api/department'
 import { transListToTreeData } from '@/utils'
+import AddDept from '@/views/department/components/add-dapt.vue'
 
 export default {
   name: 'Department',
+  components: { AddDept },
   data() {
     return {
+      showDialog: false, // 控制弹层的显示和隐藏
       depts: [], // 数据属性
       defaultProps: {
         label: 'name', // 要显示的字段名name
@@ -51,6 +57,11 @@ export default {
     async getDepartmentInfo() {
       const result = await getDepartmentInfo()
       this.depts = transListToTreeData(result, 0)
+    },
+    operateDept(type) {
+      if (type === 'add') {
+        this.showDialog = true
+      }
     }
   }
 }
