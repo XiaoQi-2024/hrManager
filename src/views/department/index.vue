@@ -32,7 +32,9 @@
     <!-- .sync 表示会接收子组件的事件：update:showDialog 值传给 showDialog 实现子传父 -->
     <!-- :current-id="currentId" 父组件给子组件传值 -->
     <!-- @updaDepartment 子组件通知父组件的自定义事件，更新后通知父组件执行重新获取部门信息列表 -->
-    <add-dept @updaDepartment="getDepartmentInfo" :current-id="currentId" :show-dialog.sync="showDialog" />
+    <!-- ref="addDept" 可以拿到子组件的实例，用以下面调用子组件的方法 -->
+    <add-dept ref="addDept" :current-id="currentId" :show-dialog.sync="showDialog"
+      @updaDepartment="getDepartmentInfo" />
   </div>
 </template>
 
@@ -67,6 +69,15 @@ export default {
       if (type === 'add') {
         this.showDialog = true
         this.currentId = id
+      } else if (type === 'edit') {
+        this.showDialog = true
+        this.currentId = id
+        // 更新props- 异步动作
+        // this.$refs.addDept 获取到子组件对象，直接调用子组件的方法- 同步动作 （父组件调用子组件的方法来获取数据）
+        // 为了保证父组件给子组件传值，更新props后，再调用子组件方法，使用nextTick方法，阻塞让上一步刷新渲染先执行完毕
+        this.$nextTick(() => {
+          this.$refs.addDept.getDepartmentDetail()
+        })
       }
     }
   }

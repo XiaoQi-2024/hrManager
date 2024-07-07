@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { addDepartment, getDepartmentInfo, getManagerList } from '@/api/department'
+import { addDepartment, getDepartmentInfo, getManagerList, getDepartmentDetail } from '@/api/department'
 
 export default {
   name: 'AddDept',
@@ -63,7 +63,10 @@ export default {
           {
             trigger: 'blur',
             validator: async (rule, vlue, callback) => {
-              const result = await getDepartmentInfo()
+              let result = await getDepartmentInfo()
+              if (this.formData.id) {
+                result = result.filter(item => item.id !== this.formData.id)
+              }
               if (result.some(item => item.code === vlue)) {
                 callback(new Error('部门编码已存在'))
               } else {
@@ -83,7 +86,10 @@ export default {
           {
             trigger: 'blur',
             validator: async (rule, vlue, callback) => {
-              const result = await getDepartmentInfo()
+              let result = await getDepartmentInfo()
+              if (this.formData.id) {
+                result = result.filter(item => item.id !== this.formData.id)
+              }
               if (result.some(item => item.name === vlue)) {
                 callback(new Error('部门名称已存在'))
               } else {
@@ -118,6 +124,9 @@ export default {
           this.close()
         }
       })
+    },
+    async getDepartmentDetail() {
+      this.formData = await getDepartmentDetail(this.currentId)
     }
   }
 }
