@@ -10,6 +10,7 @@
       </el-form-item>
       <el-form-item prop="managerId" label="部门负责人">
         <el-select v-model="formData.managerId" style="width: 80%;" placeholder="请选择部门负责人" size="mini">
+          <!-- 下拉选项 循环负责人数据 label表示要回显的数据 vlue表示存储字段 -->
           <el-option v-for="item in managerList" :key="item.id" :label="item.username" :value="item.id" />
         </el-select>
       </el-form-item>
