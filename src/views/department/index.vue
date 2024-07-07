@@ -31,7 +31,8 @@
     <!-- 放置弹层 父组件给子组件传值 -->
     <!-- .sync 表示会接收子组件的事件：update:showDialog 值传给 showDialog 实现子传父 -->
     <!-- :current-id="currentId" 父组件给子组件传值 -->
-    <add-dept :current-id="currentId" :show-dialog.sync="showDialog" />
+    <!-- @updaDepartment 子组件通知父组件的自定义事件，更新后通知父组件执行重新获取部门信息列表 -->
+    <add-dept @updaDepartment="getDepartmentInfo" :current-id="currentId" :show-dialog.sync="showDialog" />
   </div>
 </template>
 

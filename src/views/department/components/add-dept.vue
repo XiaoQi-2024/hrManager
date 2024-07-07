@@ -22,8 +22,8 @@
         <!-- 按钮 -->
         <el-row type="flex" justify="center">
           <el-col :span="12">
-            <el-button size="mini" type="primary">确认</el-button>
-            <el-button size="mini">取消</el-button>
+            <el-button size="mini" type="primary" @click="btnOk">确认</el-button>
+            <el-button size="mini" @click="close">取消</el-button>
           </el-col>
         </el-row>
       </el-form-item>
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { getDepartmentInfo, getManagerList } from '@/api/department'
+import { addDepartment, getDepartmentInfo, getManagerList } from '@/api/department'
 
 export default {
   name: 'AddDept',
@@ -100,12 +100,24 @@ export default {
   },
   methods: {
     close() {
-      // this.$refs.formData.resetFields() // 重置表单数据和校验规则
+      this.$refs.addDept.resetFields() // 重置表单数据和校验规则
       // 修改父组件的值 子传父 自定义事件update:showDialog
       this.$emit('update:showDialog', false)
     },
     async getManagerList() {
       this.managerList = await getManagerList()
+    },
+    btnOk() {
+      this.$refs.addDept.validate(async isOK => {
+        if (isOK) {
+          await addDepartment({ ...this.formData, pid: this.currentId })
+          this.$message.success('新增成功')
+          // 子组件通知父组件 执行自定义事件：更新部门信息列表
+          this.$emit('updaDepartment')
+          // 重置表单 关闭弹层
+          this.close()
+        }
+      })
     }
   }
 }
