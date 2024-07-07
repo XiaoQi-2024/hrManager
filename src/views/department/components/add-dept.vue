@@ -9,7 +9,9 @@
         <el-input v-model="formData.code" style="width: 80%;" placeholder="1-10字符" size="mini" />
       </el-form-item>
       <el-form-item prop="managerId" label="部门负责人">
-        <el-select v-model="formData.managerId" style="width: 80%;" placeholder="请选择部门负责人" size="mini" />
+        <el-select v-model="formData.managerId" style="width: 80%;" placeholder="请选择部门负责人" size="mini">
+          <el-option v-for="item in managerList" :key="item.id" :label="item.username" :value="item.id" />
+        </el-select>
       </el-form-item>
       <el-form-item prop="introduce" label="部门介绍">
         <el-input v-model="formData.introduce" type="textarea" rows="4" style="width: 80%;" placeholder="1-100字符"
@@ -29,7 +31,7 @@
 </template>
 
 <script>
-import { getDepartmentInfo } from '@/api/department'
+import { getDepartmentInfo, getManagerList } from '@/api/department'
 
 export default {
   name: 'AddDept',
@@ -41,6 +43,7 @@ export default {
   },
   data() {
     return {
+      managerList: [],
       formData: {
         code: '', // 部门编码
         introduce: '', // 部门介绍
@@ -87,11 +90,17 @@ export default {
       }
     }
   },
+  created() {
+    this.getManagerList()
+  },
   methods: {
     close() {
       // this.$refs.formData.resetFields() // 重置表单数据和校验规则
       // 修改父组件的值 子传父 自定义事件update:showDialog
       this.$emit('update:showDialog', false)
+    },
+    async getManagerList() {
+      this.managerList = await getManagerList()
     }
   }
 }
