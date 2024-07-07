@@ -11,7 +11,9 @@
             <!-- 加冒号变成数值类型 设置占据的分数 默认各一半 总共24份 -->
             <el-col :span="4">
               <span style="padding-right: 10px;">{{ data.managerName }}</span>
-              <el-dropdown @command="operateDept">
+              <!-- $event 实参 表示类型type，如果不需要传参，默认可以不传
+               因为需要传参data.id 所以需要显式声明$event -->
+              <el-dropdown @command="operateDept($event, data.id)">
                 <span class="el-dropdown-link">
                   操作<i class="el-icon-arrow-down el-icon--right" />
                 </span>
@@ -28,7 +30,8 @@
     </div>
     <!-- 放置弹层 父组件给子组件传值 -->
     <!-- .sync 表示会接收子组件的事件：update:showDialog 值传给 showDialog 实现子传父 -->
-    <add-dept :show-dialog.sync="showDialog" />
+    <!-- :current-id="currentId" 父组件给子组件传值 -->
+    <add-dept :current-id="currentId" :show-dialog.sync="showDialog" />
   </div>
 </template>
 
@@ -42,6 +45,7 @@ export default {
   components: { AddDept },
   data() {
     return {
+      currentId: null, // 给子组件传递当前的父级部门Id
       showDialog: false, // 控制弹层的显示和隐藏
       depts: [], // 数据属性
       defaultProps: {
@@ -58,9 +62,10 @@ export default {
       const result = await getDepartmentInfo()
       this.depts = transListToTreeData(result, 0)
     },
-    operateDept(type) {
+    operateDept(type, id) {
       if (type === 'add') {
         this.showDialog = true
+        this.currentId = id
       }
     }
   }

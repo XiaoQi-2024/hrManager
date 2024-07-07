@@ -37,6 +37,10 @@ import { getDepartmentInfo, getManagerList } from '@/api/department'
 export default {
   name: 'AddDept',
   props: {
+    currentId: {
+      type: Number,
+      default: null
+    },
     showDialog: {
       type: Boolean,
       default: false
