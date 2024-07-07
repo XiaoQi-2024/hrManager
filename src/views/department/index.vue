@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { getDepartmentInfo } from '@/api/department'
+import { getDepartmentInfo, deleteDepartment } from '@/api/department'
 import { transListToTreeData } from '@/utils'
 import AddDept from '@/views/department/components/add-dept.vue'
 
@@ -77,6 +77,20 @@ export default {
         // 为了保证父组件给子组件传值，更新props后，再调用子组件方法，使用nextTick方法，阻塞让上一步刷新渲染先执行完毕
         this.$nextTick(() => {
           this.$refs.addDept.getDepartmentDetail()
+        })
+      } else {
+        this.$confirm('是否确定删除此部门?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(async () => {
+          await deleteDepartment(id) // 调用后端接口
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+          // 刷新前端页面
+          this.getDepartmentInfo()
         })
       }
     }

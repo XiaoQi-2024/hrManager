@@ -33,3 +33,10 @@ export function updateDepartment(data) {
     data
   })
 }
+
+export function deleteDepartment(id) {
+  return request({
+    method: 'delete',
+    url: `/company/department/${id}`
+  })
+}
