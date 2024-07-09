@@ -61,7 +61,13 @@ export default {
   },
   methods: {
     async getRoleInfoList() {
+      // 先将变量清空
+      this.dataText = ''
       const { rows, total } = await getRoleInfoList(this.pageParams)
+      if (total === 0) {
+        //   当请求后台，数据为空时，再让页面显示暂无数据
+        this.dataText = '暂无数据'
+      }
       this.tableData = rows
       this.pageParams.total = total
     },
