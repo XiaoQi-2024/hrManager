@@ -61,11 +61,11 @@ export default {
       this.tableData = rows
       this.pageParams.total = total
     },
-    handleCurrentChange(newPage) {
+    handleCurrentChange(newPage) { // 修改页码
       this.pageParams.page = newPage
       this.getRoleInfoList()
     },
-    handleSizeChange(pagesize) {
+    handleSizeChange(pagesize) { // 修改每页行数
       this.pageParams.pagesize = pagesize
       this.getRoleInfoList()
     }
