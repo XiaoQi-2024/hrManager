@@ -23,7 +23,15 @@
         </el-table-column>
       </el-table>
       <el-row type="flex" style="height: 60px;" align="middle" justify="end">
-        <el-pagination layout="prev, pager, next" />
+        <el-pagination
+          :page-size="pageParams.pagesize"
+          :page-sizes="[5, 10, 20, 50]"
+          :current-page="pageParams.page"
+          :total="pageParams.total"
+          layout="total, sizes, prev, pager, next"
+          @current-change="handleCurrentChange"
+          @size-change="handleSizeChange"
+        />
       </el-row>
     </div>
   </div>
@@ -36,7 +44,12 @@ export default {
   name: 'Role',
   data() {
     return {
-      tableData: []
+      tableData: [],
+      pageParams: {
+        page: 1,
+        pagesize: 5,
+        total: 0
+      }
     }
   },
   created() {
@@ -44,8 +57,17 @@ export default {
   },
   methods: {
     async getRoleInfoList() {
-      const { rows } = await getRoleInfoList()
+      const { rows, total } = await getRoleInfoList(this.pageParams)
       this.tableData = rows
+      this.pageParams.total = total
+    },
+    handleCurrentChange(newPage) {
+      this.pageParams.page = newPage
+      this.getRoleInfoList()
+    },
+    handleSizeChange(pagesize) {
+      this.pageParams.pagesize = pagesize
+      this.getRoleInfoList()
     }
   }
 }
