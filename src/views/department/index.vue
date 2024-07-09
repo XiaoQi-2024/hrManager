@@ -33,8 +33,7 @@
     <!-- :current-id="currentId" 父组件给子组件传值 -->
     <!-- @updaDepartment 子组件通知父组件的自定义事件，更新后通知父组件执行重新获取部门信息列表 -->
     <!-- ref="addDept" 可以拿到子组件的实例，用以下面调用子组件的方法 -->
-    <add-dept ref="addDept" :current-id="currentId" :show-dialog.sync="showDialog"
-      @updaDepartment="getDepartmentInfo" />
+    <add-dept ref="addDept" :current-id="currentId" :show-dialog.sync="showDialog" @updaDepartment="getDepartmentInfo" />
   </div>
 </template>
 
@@ -83,7 +82,7 @@ export default {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
-        }).then(async () => {
+        }).then(async() => {
           await deleteDepartment(id) // 调用后端接口
           this.$message({
             type: 'success',

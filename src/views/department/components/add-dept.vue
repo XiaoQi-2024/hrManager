@@ -15,8 +15,7 @@
         </el-select>
       </el-form-item>
       <el-form-item prop="introduce" label="部门介绍">
-        <el-input v-model="formData.introduce" type="textarea" rows="4" style="width: 80%;" placeholder="1-100字符"
-          size="mini" />
+        <el-input v-model="formData.introduce" type="textarea" rows="4" style="width: 80%;" placeholder="1-100字符" size="mini" />
       </el-form-item>
       <el-form-item>
         <!-- 按钮 -->
@@ -62,7 +61,7 @@ export default {
           { min: 2, max: 10, message: '部门编码长度2-10个字符', trigger: 'blur' },
           {
             trigger: 'blur',
-            validator: async (rule, vlue, callback) => {
+            validator: async(rule, vlue, callback) => {
               let result = await getDepartmentInfo()
               if (this.formData.id) { // 判断是编辑还是新增 新增没有Id
                 result = result.filter(item => item.id !== this.formData.id)
@@ -85,7 +84,7 @@ export default {
           { min: 2, max: 10, message: '部门名称长度2-10个字符', trigger: 'blur' },
           {
             trigger: 'blur',
-            validator: async (rule, vlue, callback) => {
+            validator: async(rule, vlue, callback) => {
               let result = await getDepartmentInfo()
               if (this.formData.id) {
                 result = result.filter(item => item.id !== this.formData.id)
