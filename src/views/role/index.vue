@@ -5,6 +5,9 @@
         <el-button size="mini" type="primary">添加角色</el-button>
       </div>
       <el-table :data="tableData" style="width: 100%">
+        <template slot="empty">
+          <p>{{ dataText }}</p>
+        </template>
         <el-table-column align="center" prop="name" label="角色" width="200" />
         <el-table-column align="center" prop="state" label="启用" width="200">
           <template slot-scope="scope">
@@ -45,6 +48,7 @@ export default {
   data() {
     return {
       tableData: [],
+      dataText: '', // 进去页面先让字样为空
       pageParams: {
         page: 1,
         pagesize: 5,
