@@ -2,7 +2,7 @@
   <div class="container">
     <div class="app-container">
       <div class="addRoleButton">
-        <el-button size="mini" type="primary">添加角色</el-button>
+        <el-button size="mini" type="primary" @click="showDialog = true">添加角色</el-button>
       </div>
       <el-table :data="tableData" style="width: 100%">
         <template slot="empty">
@@ -37,16 +37,20 @@
         />
       </el-row>
     </div>
+    <add-role :show-dialog.sync="showDialog" @updaRoleList="getRoleInfoList" />
   </div>
 </template>
 
 <script>
 import { getRoleInfoList } from '@/api/role'
+import AddRole from '@/views/role/components/add-role.vue'
 
 export default {
   name: 'Role',
+  components: { AddRole },
   data() {
     return {
+      showDialog: false, // 控制弹层的显示和隐藏
       tableData: [],
       dataText: '', // 进去页面先让字样为空
       pageParams: {
