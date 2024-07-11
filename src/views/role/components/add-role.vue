@@ -6,6 +6,7 @@
         <el-input v-model="formData.name" style="width: 300px;" size="mini" />
       </el-form-item>
       <!-- 如果不需要检验，不需要设置prop属性 -->
+      <!-- 但是不设置prop resetFields重置表单时不会被该属性重置 -->
       <el-form-item label="状态" prop="state">
         <el-switch v-model="formData.state" :active-value="1" :inactive-value="0" />
       </el-form-item>
