@@ -5,7 +5,7 @@ import router from '@/router'
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // 基础地址
-  timeout: 10000
+  timeout: 30000
 }) // 创建一个axios实例
 
 // 请求拦截 成功1，失败2
@@ -24,7 +24,10 @@ service.interceptors.request.use((config) => {
 service.interceptors.response.use((response) => {
   // 成功执行
   // axios会默认加一层dat的包裹
-  const { success, message, data } = response.data
+  if (response.data instanceof Blob) { // 二进制文件流数据直接返回
+    return response.data
+  }
+  const { success, message, data } = response.data // 默认返回json格式数据
   if (success) {
     return data // 返回用户所需的数据
   } else {

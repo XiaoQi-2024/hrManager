@@ -26,7 +26,7 @@
         <el-row class="opeate-tools">
           <el-button size="small" type="primary">添加员工</el-button>
           <el-button size="small">excel导入</el-button>
-          <el-button size="small">excel导出</el-button>
+          <el-button size="small" @click="exportEmployeeInfo">excel导出</el-button>
         </el-row>
         <!-- 表格组件 -->
         <el-table :data="tableData" style="width: 100%">
@@ -78,8 +78,10 @@
 
 <script>
 import { getDepartmentInfo } from '@/api/department'
-import { getEmployeeList } from '@/api/employee'
+import { getEmployeeList, exportEmployeeInfo } from '@/api/employee'
 import { transListToTreeData } from '@/utils'
+import FileSaver from 'file-saver'
+
 export default {
   name: 'Employee',
   data() {
@@ -143,6 +145,11 @@ export default {
     whithUserNameQuery() { // 输入框失去焦点或回车时触发模糊查询
       this.queryParams.page = 1
       this.getEmployeeList()
+    },
+    async exportEmployeeInfo() {
+      const result = await exportEmployeeInfo()
+      // FileSaver.saveAs(blob对象,文件名称)
+      FileSaver(result, '员工信息表.xlsx') // 下载文件
     }
   }
 }
