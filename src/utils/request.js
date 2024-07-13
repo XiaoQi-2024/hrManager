@@ -24,6 +24,7 @@ service.interceptors.request.use((config) => {
 service.interceptors.response.use((response) => {
   // 成功执行
   // axios会默认加一层dat的包裹
+  // debugger
   if (response.data instanceof Blob) { // 二进制文件流数据直接返回
     return response.data
   }

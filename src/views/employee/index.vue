@@ -25,7 +25,7 @@
       <div class="right">
         <el-row class="opeate-tools">
           <el-button size="small" type="primary">添加员工</el-button>
-          <el-button size="small">excel导入</el-button>
+          <el-button size="small" @click="showExcelDialog = true">excel导入</el-button>
           <el-button size="small" @click="exportEmployeeInfo">excel导出</el-button>
         </el-row>
         <!-- 表格组件 -->
@@ -52,10 +52,15 @@
           <el-table-column prop="departmentName" label="部门" />
           <el-table-column prop="timeOfEntry" sortable label="入职时间" />
           <el-table-column style="width: 280px;" label="操作">
-            <template>
+            <template v-slot="{ row }">
               <el-button type="text" size="small">查看</el-button>
               <el-button type="text" size="small">角色</el-button>
-              <el-button type="text" size="small">删除</el-button>
+              <el-popconfirm
+                title="确定删除当前员工信息吗？"
+                @onConfirm="delEmployee(row.id)"
+              >
+                <el-button slot="reference" style="margin-left: 10px;" type="text" size="small">删除</el-button>
+              </el-popconfirm>
             </template>
           </el-table-column>
         </el-table>
@@ -73,17 +78,22 @@
         </el-row>
       </div>
     </div>
+    <ImportExcel :show-excel-dialog.sync="showExcelDialog" @uploadSuccess="getEmployeeList" />
   </div>
 </template>
 
 <script>
 import { getDepartmentInfo } from '@/api/department'
-import { getEmployeeList, exportEmployeeInfo } from '@/api/employee'
+import { getEmployeeList, exportEmployeeInfo, delEmployee } from '@/api/employee'
 import { transListToTreeData } from '@/utils'
 import FileSaver from 'file-saver'
+import ImportExcel from './components/import-excel.vue'
 
 export default {
   name: 'Employee',
+  components: {
+    ImportExcel
+  },
   data() {
     return {
       depts: [],
@@ -100,7 +110,8 @@ export default {
       },
       total: 0,
       tableData: [],
-      dataText: '' // 进去页面先让字样为空
+      dataText: '', // 进去页面先让字样为空
+      showExcelDialog: false // 控制excel的弹层显示和隐藏
     }
   },
   created() {
@@ -150,12 +161,19 @@ export default {
       const result = await exportEmployeeInfo()
       // FileSaver.saveAs(blob对象,文件名称)
       FileSaver(result, '员工信息表.xlsx') // 下载文件
+    },
+    async delEmployee(id) {
+      await delEmployee(id)
+      if (this.tableData.length === 1 && this.queryParams.page > 1) this.queryParams.page--
+      this.getEmployeeList()
+      this.$message.success('删除员工成功')
     }
   }
 }
 </script>
 
-<style scoped>
+<!-- lang="scss" 避免css样式提示异常 -->
+<style scoped lang="scss">
 .app-container {
   background: #fff;
   display: flex;
