@@ -21,11 +21,14 @@
             </el-col>
           </el-row>
           <!--手机 聘用形式  -->
+          <!-- 编辑时，用户的手机号不允许修改，通过判断是否存在路由传参id -->
+          <!-- !!是取反两次，因为$route.params.id是一个字符串，取反两次拿到boolean值 -->
           <el-row>
             <el-col :span="12">
               <el-form-item label="手机" prop="mobile">
                 <el-input
                   v-model="userInfo.mobile"
+                  :disabled="!!$route.params.id"
                   size="mini"
                   class="inputW"
                 />
@@ -100,7 +103,7 @@
 
 <script>
 import selectTree from '@/views/employee/components/select-tree.vue'
-import { addEmployee } from '@/api/employee'
+import { addEmployee, getEmployeeDetail, updateEmployee } from '@/api/employee'
 
 export default {
   components: {
@@ -144,16 +147,33 @@ export default {
       }
     }
   },
+  created() {
+    // 获取路由参数的中id
+    // if (this.$route.params.id) { this.getEmployeeDetail() } 用下面这种格式也可以
+    this.$route.params.id && this.getEmployeeDetail()
+  },
   methods: {
     saveData() {
       this.$refs.userForm.validate(async isOK => {
         if (isOK) {
-          // 校验通过
-          await addEmployee(this.userInfo)
-          this.$message.success('新增员工成功')
+          // 编辑模式 存在路由传参Id
+          if (this.$route.params.id) {
+            // 编辑模式
+            await updateEmployee(this.userInfo)
+            this.$message.success('更新员工成功')
+          } else {
+            // 新增模式
+            // 校验通过
+            await addEmployee(this.userInfo)
+            this.$message.success('新增员工成功')
+          }
           this.$router.push('/employee')
         }
       })
+    },
+    async getEmployeeDetail() {
+      // 获取路由参数的中id
+      this.userInfo = await getEmployeeDetail(this.$route.params.id)
     }
   }
 }

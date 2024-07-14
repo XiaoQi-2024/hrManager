@@ -53,7 +53,8 @@
           <el-table-column prop="timeOfEntry" sortable label="入职时间" />
           <el-table-column style="width: 280px;" label="操作">
             <template v-slot="{ row }">
-              <el-button type="text" size="small" @click="$router.push('/employee/detail')">查看</el-button>
+              <!-- 路由传参 id -->
+              <el-button type="text" size="small" @click="$router.push(`/employee/detail/${row.id}`)">查看</el-button>
               <el-button type="text" size="small">角色</el-button>
               <el-popconfirm
                 title="确定删除当前员工信息吗？"

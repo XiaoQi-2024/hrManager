@@ -12,7 +12,7 @@ export default {
     }
   },
   {
-    path: '/employee/detail', // 员工详情的地址
+    path: '/employee/detail/:id?', // 员工详情的地址 :id? 表示路由传参id ?可以传id也可以选择不传，页面都能正确显示
     name: 'detail',
     component: () => import('@/views/employee/detail.vue'),
     meta: {
