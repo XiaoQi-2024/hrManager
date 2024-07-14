@@ -24,7 +24,7 @@
       </div>
       <div class="right">
         <el-row class="opeate-tools">
-          <el-button size="small" type="primary">添加员工</el-button>
+          <el-button size="small" type="primary" @click="$router.push('/employee/detail')">添加员工</el-button>
           <el-button size="small" @click="showExcelDialog = true">excel导入</el-button>
           <el-button size="small" @click="exportEmployeeInfo">excel导出</el-button>
         </el-row>
@@ -53,7 +53,7 @@
           <el-table-column prop="timeOfEntry" sortable label="入职时间" />
           <el-table-column style="width: 280px;" label="操作">
             <template v-slot="{ row }">
-              <el-button type="text" size="small">查看</el-button>
+              <el-button type="text" size="small" @click="$router.push('/employee/detail')">查看</el-button>
               <el-button type="text" size="small">角色</el-button>
               <el-popconfirm
                 title="确定删除当前员工信息吗？"
@@ -88,6 +88,7 @@ import { getEmployeeList, exportEmployeeInfo, delEmployee } from '@/api/employee
 import { transListToTreeData } from '@/utils'
 import FileSaver from 'file-saver'
 import ImportExcel from './components/import-excel.vue'
+import router from '@/router'
 
 export default {
   name: 'Employee',
