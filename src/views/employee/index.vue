@@ -88,7 +88,6 @@ import { getEmployeeList, exportEmployeeInfo, delEmployee } from '@/api/employee
 import { transListToTreeData } from '@/utils'
 import FileSaver from 'file-saver'
 import ImportExcel from './components/import-excel.vue'
-import router from '@/router'
 
 export default {
   name: 'Employee',

@@ -36,6 +36,9 @@
             <el-col :span="12">
               <el-form-item label="部门" prop="departmentId">
                 <!-- 放置及联部门组件 -->
+                <!-- inputW样式会给到selectTree中 template第一层的组件 -->
+                <!-- 在父组件使用v-model双向绑定 departmentId 属性 -->
+                <select-tree v-model="userInfo.departmentId" class="inputW" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -96,8 +99,12 @@
 </template>
 
 <script>
+import selectTree from '@/views/employee/components/select-tree.vue'
 
 export default {
+  components: {
+    selectTree
+  },
   data() {
     return {
       userInfo: {

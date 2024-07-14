@@ -123,7 +123,9 @@ export function transListToTreeData(list, rootId) {
       // 找到匹配的节点
       arr.push(item)
       const children = transListToTreeData(list, item.id)
-      item.children = children
+      if (children.length > 0) {
+        item.children = children
+      }
     }
   })
   return arr
