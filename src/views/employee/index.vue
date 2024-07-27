@@ -24,7 +24,7 @@
       </div>
       <div class="right">
         <el-row class="opeate-tools">
-          <el-button size="small" type="primary" @click="$router.push('/employee/detail')">添加员工</el-button>
+          <el-button v-permission="'add-employee'" size="small" type="primary" @click="$router.push('/employee/detail')">添加员工</el-button>
           <el-button size="small" @click="showExcelDialog = true">excel导入</el-button>
           <el-button size="small" @click="exportEmployeeInfo">excel导出</el-button>
         </el-row>
