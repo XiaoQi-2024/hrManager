@@ -1,6 +1,7 @@
 import layout from '@/layout'
 export default {
   path: '/employee',
+  name: 'employee',
   component: layout,
   children: [{
     path: '', // 二级路由为空时 表示/department (显示一级路由 ＋ 二级路由)

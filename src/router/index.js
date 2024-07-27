@@ -61,8 +61,15 @@ export const constantRoutes = [
       component: () => import('@/views/dashboard/index'),
       meta: { title: '首页', icon: 'dashboard' }
     }]
-  },
+  }
 
+  // 404 page must be placed at the end !!!
+  // 这个位置是静态路由，拆分动态路由后，应该放在动态路由的最后（permission.js 中的前置守卫中添加动态路由的最后）
+  // { path: '*', redirect: '/404', hidden: true }
+]
+
+// 动态路由 需要有权限才能访问
+export const asyncRoutes = [
   // 导入组织架构路由规则
   department,
   // 批量导入路由规则
@@ -72,16 +79,13 @@ export const constantRoutes = [
   permission,
   role,
   salary,
-  social,
-
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  social
 ]
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
+  routes: constantRoutes // 默认导入静态路由，所有人都可以访问
 })
 
 const router = createRouter()

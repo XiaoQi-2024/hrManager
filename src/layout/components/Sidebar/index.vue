@@ -29,13 +29,14 @@ export default {
   components: { SidebarItem, Logo },
   computed: {
     ...mapGetters([
-      'sidebar'
+      'sidebar',
+      'routes' // 左侧菜单组件读取Vuex中的路由信息
     ]),
     // 路由信息的计算属性
-    routes() {
-      // 当前路由的所有路由信息（包括一些不需要渲染的路由，后面需要在SidebarItem中过滤掉）
-      return this.$router.options.routes
-    },
+    // routes() {
+    //   // 当前路由的所有路由信息（包括一些不需要渲染的路由，后面需要在SidebarItem中过滤掉）
+    //   return this.$router.options.routes
+    // },
     activeMenu() {
       const route = this.$route
       const { meta, path } = route
